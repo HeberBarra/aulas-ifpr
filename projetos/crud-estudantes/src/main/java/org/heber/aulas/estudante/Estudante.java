@@ -1,18 +1,16 @@
 package org.heber.aulas.estudante;
 
+import org.heber.aulas.base.Modelo;
 import org.heber.aulas.turma.Turma;
 
 import java.time.LocalDate;
 
-public class Estudante {
+public class Estudante extends Modelo {
 
-    private int matricula;
-    private String nome;
     private LocalDate dataNascimento;
     private Turma turma;
 
-    public Estudante(int matricula, String nome, LocalDate dataNascimento, Turma turma) {
-        this.matricula = matricula;
+    public Estudante(String nome, LocalDate dataNascimento, Turma turma) {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.turma = turma;
@@ -23,26 +21,10 @@ public class Estudante {
         int anoNascimento = dataNascimento.getYear();
         int anoAtual = dataAtual.getYear();
 
-        if ( dataNascimento.getMonthValue() >= dataAtual.getMonthValue() )
+        if (dataAtual.isAfter(LocalDate.of(anoAtual, dataNascimento.getMonthValue(), dataNascimento.getDayOfMonth())))
             return anoAtual - anoNascimento;
 
         return anoAtual - anoNascimento - 1;
-    }
-
-    public int getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(int matricula) {
-        this.matricula = matricula;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public LocalDate getDataNascimento() {
@@ -60,4 +42,5 @@ public class Estudante {
     public void setTurma(Turma turma) {
         this.turma = turma;
     }
+
 }
