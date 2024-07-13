@@ -1,31 +1,14 @@
 package org.heber.aulas.curso;
 
-public class Curso {
+import org.heber.aulas.base.Modelo;
 
-    private int codigoCurso;
-    private String nomeCurso;
+public class Curso extends Modelo {
+
     private int duracaoCurso;
 
-    public Curso(int codigoCurso, String nomeCurso, int duracaoCurso) {
-        this.codigoCurso = codigoCurso;
-        this.nomeCurso = nomeCurso;
+    public Curso(String nomeCurso, int duracaoCurso) {
+        this.nome = nomeCurso;
         this.duracaoCurso = duracaoCurso;
-    }
-
-    public int getCodigoCurso() {
-        return codigoCurso;
-    }
-
-    public void setCodigoCurso(int codigoCurso) {
-        this.codigoCurso = codigoCurso;
-    }
-
-    public String getNomeCurso() {
-        return nomeCurso;
-    }
-
-    public void setNomeCurso(String nomeCurso) {
-        this.nomeCurso = nomeCurso;
     }
 
     public int getDuracaoCurso() {
@@ -35,4 +18,5 @@ public class Curso {
     public void setDuracaoCurso(int duracaoCurso) {
         this.duracaoCurso = duracaoCurso;
     }
+
 }

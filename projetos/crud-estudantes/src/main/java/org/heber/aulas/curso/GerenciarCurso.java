@@ -1,4 +1,5 @@
 package org.heber.aulas.curso;
 
-public class GerenciarCurso {
-}
+import org.heber.aulas.base.Gerenciador;
+
+public class GerenciarCurso extends Gerenciador<Curso> {}

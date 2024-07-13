@@ -30,6 +30,22 @@ java {
     }
 }
 
+jar {
+    manifest {
+        attributes (
+                'Main-Class': 'org.heber.aulas.Main',
+                'Implementation-Version': version
+        )
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    project.version = ""
+}
+
+
 application {
     // Define the main class for the application.
     mainClass = 'org.heber.aulas.Main'
