@@ -1,7 +1,5 @@
 package org.heber.aulas.base;
 
-import org.checkerframework.checker.units.qual.A;
-
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
