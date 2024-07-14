@@ -32,6 +32,10 @@ build
 # Ignore nvim project files
 .project
 .settings
-
-
 .classpath
+
+# Ignore eclipse files
+*.iml
+
+# Ignore bin files
+bin
