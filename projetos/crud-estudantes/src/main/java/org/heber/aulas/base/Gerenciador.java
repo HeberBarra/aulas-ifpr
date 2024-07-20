@@ -49,4 +49,13 @@ public abstract class Gerenciador<T extends Modelo> {
         return modelos;
     }
 
+    public abstract String pegarInformacoes();
+
+    public abstract void lerInformacoes(String linhaCsv);
+
+    public void atualizarIndiceGerador() {
+        int ultimoIndice = list().getLast().getCodigo();
+        geradorCodigo.set(ultimoIndice + 1);
+    }
+
 }

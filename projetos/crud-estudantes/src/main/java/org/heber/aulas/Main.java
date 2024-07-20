@@ -1,5 +1,6 @@
 package org.heber.aulas;
 
+import org.heber.aulas.arquivo.Arquivo;
 import org.heber.aulas.curso.Curso;
 import org.heber.aulas.curso.GerenciarCurso;
 import org.heber.aulas.estudante.Estudante;
@@ -32,22 +33,31 @@ public class Main {
     private static final int PESQUISAR_CURSO = 0x0F;
     private static final int ATUALIZAR_CURSO = 0x10;
     private static final int REMOVER_CURSO = 0x11;
-    private static final int SAIR = 0x12;
+    private static final int SALVAR_INFORMACOES = 0x12;
+    private static final int SAIR = 0x13;
     private static final String REGEX_DATA = "^(3[01]|[12][0-9]|0[1-9])(/)(1[0-2]|0[1-9])\\2([0-9]{4})$";
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private final GerenciarCurso gerenciarCurso;
-    private final GerenciarEstudante gerenciarEstudante;
-    private final GerenciarTurma gerenciarTurma;
+    private final Arquivo arquivo;
     private final Scanner scanner;
+    public static Main main;
+    public final GerenciarCurso gerenciarCurso;
+    public final GerenciarEstudante gerenciarEstudante;
+    public final GerenciarTurma gerenciarTurma;
 
     public static void main(String[] args) {
-        new Main().run();
+        main = new Main();
+        main.arquivo.lerInformacoes();
+        main.run();
     }
 
     public Main() {
+        arquivo = new Arquivo();
         gerenciarCurso = new GerenciarCurso();
         gerenciarEstudante = new GerenciarEstudante();
         gerenciarTurma = new GerenciarTurma();
+        arquivo.adicionarGerenciador(gerenciarCurso);
+        arquivo.adicionarGerenciador(gerenciarTurma);
+        arquivo.adicionarGerenciador(gerenciarEstudante);
         scanner = new Scanner(System.in);
     }
 
@@ -95,9 +105,13 @@ public class Main {
 
                 case ATUALIZAR_CURSO -> atualizarCurso();
 
+                case SALVAR_INFORMACOES -> salvarInformacoes();
+
                 case REMOVER_CURSO -> removerCurso();
 
-                case SAIR -> { return; }
+                case SAIR -> {
+                    return;
+                }
 
                 default -> System.out.println("Opção inválida");
 
@@ -144,7 +158,7 @@ public class Main {
             return;
         }
 
-        for (Estudante estudante: estudantes) {
+        for (Estudante estudante : estudantes) {
             System.out.printf("Matrícula: %d%n", estudante.getCodigo());
             System.out.printf("Nome: %s%n", estudante.getNome());
             System.out.printf("Data de nascimento: %s%n", estudante.getDataNascimento().format(dateTimeFormatter));
@@ -167,7 +181,7 @@ public class Main {
         }
 
         System.out.println();
-        for (Estudante estudante: estudantes) {
+        for (Estudante estudante : estudantes) {
             System.out.printf("Matrícula: %d%n", estudante.getCodigo());
             System.out.printf("Nome: %s%n", estudante.getNome());
             System.out.printf("Data de nascimento: %s%n", estudante.getDataNascimento().format(dateTimeFormatter));
@@ -302,7 +316,7 @@ public class Main {
             return;
         }
 
-        for (Turma turma: turmas) {
+        for (Turma turma : turmas) {
             System.out.printf("Código: %d%n", turma.getCodigo());
             System.out.printf("Nome: %s%n", turma.getNome());
             System.out.printf("Curso: %s%n", turma.getCurso().getNome());
@@ -325,7 +339,7 @@ public class Main {
         }
 
         System.out.println();
-        for (Turma turma: turmas) {
+        for (Turma turma : turmas) {
             System.out.printf("Código: %d%n", turma.getCodigo());
             System.out.printf("Nome: %s%n", turma.getNome());
             System.out.printf("Curso: %s%n", turma.getCurso());
@@ -390,7 +404,7 @@ public class Main {
             return;
         }
 
-        for (Curso curso: cursos) {
+        for (Curso curso : cursos) {
             System.out.printf("Código: %d%n", curso.getCodigo());
             System.out.printf("Curso: %s%n", curso.getNome());
             System.out.printf("Duração: %d%n", curso.getDuracaoCurso());
@@ -410,7 +424,7 @@ public class Main {
         }
 
         System.out.println();
-        for (Curso curso: cursos) {
+        for (Curso curso : cursos) {
             System.out.printf("Código: %d%n", curso.getCodigo());
             System.out.printf("Curso: %s%n", curso.getNome());
             System.out.printf("Duração: %d%n", curso.getDuracaoCurso());
@@ -469,7 +483,7 @@ public class Main {
 
         Curso curso = gerenciarCurso.findById(codigoCurso);
 
-        for (Turma turma: gerenciarTurma.list()) {
+        for (Turma turma : gerenciarTurma.list()) {
             if (turma.getCurso() == curso) {
                 System.out.println("Não é possível remover o curso, pois ele está associado a uma turma");
                 return;
@@ -478,6 +492,10 @@ public class Main {
 
         gerenciarCurso.remove(codigoCurso);
         System.out.println("Curso removido com sucesso");
+    }
+
+    private void salvarInformacoes() {
+        arquivo.salvarInformacoes();
     }
 
     private void mostrarMenu() {
@@ -500,6 +518,7 @@ public class Main {
         System.out.printf("[ %2d ] - Pesquisar curso%n", PESQUISAR_CURSO);
         System.out.printf("[ %2d ] - Atualizar curso%n", ATUALIZAR_CURSO);
         System.out.printf("[ %2d ] - Remover curso%n", REMOVER_CURSO);
+        System.out.printf("[ %2d ] - Salvar informações%n", SALVAR_INFORMACOES);
         System.out.printf("[ %2d ] - Sair do programa%n", SAIR);
     }
 }
