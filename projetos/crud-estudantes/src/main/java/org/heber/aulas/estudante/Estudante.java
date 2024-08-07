@@ -2,7 +2,6 @@ package org.heber.aulas.estudante;
 
 import org.heber.aulas.base.Modelo;
 import org.heber.aulas.turma.Turma;
-
 import java.time.LocalDate;
 
 public class Estudante extends Modelo {

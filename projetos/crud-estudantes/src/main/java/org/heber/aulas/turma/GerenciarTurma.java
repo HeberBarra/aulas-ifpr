@@ -4,21 +4,12 @@ import org.heber.aulas.Main;
 import org.heber.aulas.base.Gerenciador;
 import org.heber.aulas.curso.Curso;
 import org.heber.aulas.estudante.Estudante;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class GerenciarTurma extends Gerenciador<Turma> {
 
     private static final String HEADERS = "NOME;CODIGO;CODIGO_CURSO\n";
-
-    public void adicionarEstudante(Turma turma, Estudante estudante) {
-        turma.getEstudantes().add(estudante);
-    }
-
-    public void removerEstudante(Turma turma, Estudante estudante) {
-        turma.getEstudantes().remove(estudante);
-    }
 
     public List<Turma> listarTurmasPorCurso(Curso curso) {
         List<Turma> turmas = new ArrayList<>();
@@ -32,14 +23,29 @@ public class GerenciarTurma extends Gerenciador<Turma> {
         return turmas;
     }
 
-    public void listarEstudantes(Turma turma) {
+    public void listarEstudantes(Turma turma, List<Estudante> estudantes) {
 
-        for (Estudante estudante: turma.getEstudantes()) {
+        for (Estudante estudante: estudantes) {
+            if (!estudante.getTurma().equals(turma))
+                continue;
+
             System.out.printf("Matrícula: %d%n", estudante.getCodigo());
             System.out.printf("Nome: %s%n", estudante.getNome());
             System.out.println();
         }
 
+    }
+
+    public int contarEstudantes(Turma turma, List<Estudante> estudantes) {
+        int total = 0;
+
+        for (Estudante estudante: estudantes) {
+            if (estudante.getTurma().equals(turma)) {
+                total += 1;
+            }
+        }
+
+        return total;
     }
 
     @Override

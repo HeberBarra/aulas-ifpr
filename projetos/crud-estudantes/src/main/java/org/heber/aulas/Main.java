@@ -147,7 +147,6 @@ public class Main {
         Turma turma = gerenciarTurma.findById(codigoTurma);
         Estudante estudante = new Estudante(nome, dataNascimento, turma);
         gerenciarEstudante.create(estudante);
-        gerenciarTurma.adicionarEstudante(turma, estudante);
     }
 
     private void listarEstudantes() {
@@ -206,7 +205,7 @@ public class Main {
         }
 
         System.out.println();
-        gerenciarTurma.listarEstudantes(turma);
+        gerenciarTurma.listarEstudantes(turma, gerenciarEstudante.list());
 
     }
 
@@ -283,7 +282,6 @@ public class Main {
         }
 
         gerenciarEstudante.remove(codigoEstudante);
-        gerenciarTurma.removerEstudante(estudante.getTurma(), estudante);
         System.out.println("Estudante removido com sucesso");
     }
 
@@ -320,7 +318,7 @@ public class Main {
             System.out.printf("Código: %d%n", turma.getCodigo());
             System.out.printf("Nome: %s%n", turma.getNome());
             System.out.printf("Curso: %s%n", turma.getCurso().getNome());
-            System.out.printf("Número estudantes: %d%n", turma.getEstudantes().size());
+            System.out.printf("Número estudantes: %d%n", gerenciarTurma.contarEstudantes(turma, gerenciarEstudante.list()));
             System.out.println();
         }
     }
@@ -342,8 +340,8 @@ public class Main {
         for (Turma turma : turmas) {
             System.out.printf("Código: %d%n", turma.getCodigo());
             System.out.printf("Nome: %s%n", turma.getNome());
-            System.out.printf("Curso: %s%n", turma.getCurso());
-            System.out.printf("Número estudantes: %d%n", turma.getEstudantes().size());
+            System.out.printf("Curso: %s%n", turma.getCurso().getNome());
+            System.out.printf("Número estudantes: %d%n", gerenciarTurma.contarEstudantes(turma, gerenciarEstudante.list()));
             System.out.println();
         }
     }
@@ -376,7 +374,7 @@ public class Main {
 
         Turma turma = gerenciarTurma.findById(codigoTurma);
 
-        if (!turma.getEstudantes().isEmpty()) {
+        if (gerenciarTurma.contarEstudantes(turma, gerenciarEstudante.list()) != 0) {
             System.out.println("Turma possui estudantes, não é possível removê-la");
             return;
         }

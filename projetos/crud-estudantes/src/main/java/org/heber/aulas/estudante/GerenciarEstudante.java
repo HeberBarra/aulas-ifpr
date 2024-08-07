@@ -44,7 +44,6 @@ public class GerenciarEstudante extends Gerenciador<Estudante> {
         Estudante estudante = new Estudante(nome, dataNascimento, turma);
         estudante.setCodigo(codigo);
         bancoDeDados.put(codigo, estudante);
-        turma.getEstudantes().add(estudante);
     }
 
     private String formatarData(LocalDate dataNascimento) {
