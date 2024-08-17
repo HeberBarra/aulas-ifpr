@@ -43,6 +43,11 @@ public class GerenciarConta {
 
     public void delete(Cliente cliente, ContaCorrente conta) {
         cliente.getContas().remove(conta);
+        contasBD.remove(conta.getId());
+    }
+
+    public void delete(ContaCorrente conta) {
+        contasBD.remove(conta.getId());
     }
 
     public ContaCorrente findBy(int id) {

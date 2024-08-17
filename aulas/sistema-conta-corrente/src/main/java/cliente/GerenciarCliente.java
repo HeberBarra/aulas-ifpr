@@ -43,4 +43,16 @@ public class GerenciarCliente {
         return null;
     }
 
+    public List<Cliente> listByName(String nome) {
+        List<Cliente> clientes = new ArrayList<>();
+
+        for (Cliente cliente: list()) {
+            if (cliente.getNome().toLowerCase().contains(nome.toLowerCase())) {
+                clientes.add(cliente);
+            }
+        }
+
+        return clientes;
+    }
+
 }
