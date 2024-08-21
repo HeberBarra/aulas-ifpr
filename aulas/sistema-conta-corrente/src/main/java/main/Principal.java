@@ -1,9 +1,9 @@
 package main;
 
-import cliente.Cliente;
-import cliente.GerenciarCliente;
-import cliente.PessoaFisica;
-import cliente.PessoaJuridica;
+import pessoa.Cliente;
+import pessoa.GerenciarCliente;
+import pessoa.PessoaFisica;
+import pessoa.PessoaJuridica;
 import conta.ContaCorrente;
 import conta.ContaEspecial;
 import conta.ContaPoupanca;

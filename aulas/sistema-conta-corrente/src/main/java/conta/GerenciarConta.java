@@ -1,6 +1,6 @@
 package conta;
 
-import cliente.Cliente;
+import pessoa.Cliente;
 
 import java.util.ArrayList;
 import java.util.Hashtable;

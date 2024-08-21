@@ -1,16 +1,12 @@
-package cliente;
+package pessoa;
 
 import conta.ContaCorrente;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Cliente {
+public abstract class Cliente extends Pessoa{
 
-    protected int id;
-    protected String nome;
-    protected String login;
-    protected String senha;
     protected List<ContaCorrente> contas;
     protected String mascara;
     protected int quantidadeDigitosMascara;
@@ -45,38 +41,6 @@ public abstract class Cliente {
                 quantidadeDigitosMascara++;
             }
         }
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public List<ContaCorrente> getContas() {

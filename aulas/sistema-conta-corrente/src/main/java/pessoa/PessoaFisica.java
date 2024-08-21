@@ -1,4 +1,4 @@
-package cliente;
+package pessoa;
 
 import javax.swing.text.MaskFormatter;
 import java.text.ParseException;

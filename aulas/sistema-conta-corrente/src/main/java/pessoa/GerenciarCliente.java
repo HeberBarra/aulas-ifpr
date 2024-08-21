@@ -1,4 +1,4 @@
-package cliente;
+package pessoa;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
