@@ -1,4 +1,4 @@
-CREATE DATABASE db_SistemaBancario;
+CREATE DATABASE IF NOT EXISTS db_SistemaBancario;
 
 USE db_SistemaBancario;
 
@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS tbAgencia (
 	nome_Ag VARCHAR(25),
 	cidade_Ag VARCHAR(25),
 	fundos DOUBLE,
-	CONSTRAINT pk_Agencia PRIMARY KEY(cod_Ag)
+	CONSTRAINT pk_Agencia PRIMARY KEY(cod_Ag),
+	CONSTRAINT un_NOMEtbAgencia UNIQUE (nome_Ag)
 
 );
 
