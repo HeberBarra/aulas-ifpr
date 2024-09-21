@@ -1,0 +1,16 @@
+services:
+  mysql-aulas:
+    image: mysql:8.0.19
+    restart: always
+    container_name: servidor-aulas
+    env_file:
+      - .env
+    ports:
+      - "3300:3306"
+    volumes:
+      - mysql-volume:/var/lib/mysql
+      - ./exercicios/:/var/scripts
+
+volumes:
+  mysql-volume:
+    driver: local
