@@ -39,3 +39,6 @@ build
 
 # Ignore bin files
 bin
+
+# Ignore Maven build files
+target
