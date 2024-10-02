@@ -70,7 +70,7 @@ public class Main  {
 
     public void adicionarUsuario() {
         Usuario usuario = new Usuario();
-        criarUsuario(new Usuario());
+        criarUsuario(usuario);
 
         gerenciarUsuario.create(usuario);
         System.out.println("Usuário adicionado com sucesso");
@@ -163,7 +163,7 @@ public class Main  {
     public void atualizarUsuario() {
         long id = console.readLong("Digite o id do usuário a ser atualizado: ");
         Usuario usuario = gerenciarUsuario.findById(id);
-        criarUsuario(gerenciarUsuario.findById(id));
+        criarUsuario(usuario);
 
         gerenciarUsuario.update(usuario);
         System.out.println("Usuário atualizado com sucesso");
