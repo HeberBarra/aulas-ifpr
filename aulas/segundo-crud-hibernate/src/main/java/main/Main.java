@@ -92,7 +92,7 @@ public class Main  {
     private void lerEndereco(Usuario usuario) {
         Endereco endereco = usuario.getEndereco();
 
-        if (endereco.getId() == 0) {
+        if (endereco == null) {
             endereco = new Endereco();
         }
 
