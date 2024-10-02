@@ -6,6 +6,8 @@ import jakarta.persistence.Persistence;
 import usuario.GerenciarUsuario;
 import usuario.Usuario;
 import console.Console;
+import usuario.endereco.Endereco;
+
 import java.util.List;
 
 public class Main  {
@@ -67,24 +69,42 @@ public class Main  {
     }
 
     public void adicionarUsuario() {
-        Usuario usuario = criarUsuario(new Usuario());
+        Usuario usuario = new Usuario();
+        criarUsuario(new Usuario());
 
         gerenciarUsuario.create(usuario);
         System.out.println("Usuário adicionado com sucesso");
     }
 
-    private Usuario criarUsuario(Usuario usuario) {
+    private void criarUsuario(Usuario usuario) {
         String nome = console.readLine("Digite o nome do usuário: ");
         String email = console.readLine("Digite o e-mail do usuário: ");
         long cpf = console.readLong("Digite o cpf do usuário(apenas o número): ");
-
         String senha = console.readLine("Digite a senha do usuário: ");
 
         usuario.setNome(nome);
         usuario.setEmail(email);
         usuario.setCpf(cpf);
         usuario.setSenha(senha);
-        return usuario;
+        lerEndereco(usuario);
+    }
+
+    private void lerEndereco(Usuario usuario) {
+        Endereco endereco = usuario.getEndereco();
+
+        if (endereco.getId() == 0) {
+            endereco = new Endereco();
+        }
+
+        String logradouro = console.readLine("Digite o logradouro do endereço: ");
+        String cep = console.readLine("Digite o CEP do endereço: ");
+        String numero = console.readLine("Digite o número do endereço: ");
+
+        endereco.setLogradouro(logradouro);
+        endereco.setCep(cep);
+        endereco.setNumero(numero);
+
+        usuario.setEndereco(endereco);
     }
 
     private void mostrarInformacoes(List<Usuario> usuarios) {
@@ -142,8 +162,8 @@ public class Main  {
 
     public void atualizarUsuario() {
         long id = console.readLong("Digite o id do usuário a ser atualizado: ");
-
-        Usuario usuario = criarUsuario(gerenciarUsuario.findById(id));
+        Usuario usuario = gerenciarUsuario.findById(id);
+        criarUsuario(gerenciarUsuario.findById(id));
 
         gerenciarUsuario.update(usuario);
         System.out.println("Usuário atualizado com sucesso");
