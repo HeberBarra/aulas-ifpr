@@ -19,8 +19,8 @@ CREATE TABLE tbUsuario (
     senha TEXT NOT NULL,
     endereco INT NOT NULL,
     CONSTRAINT pk_tbUsuario PRIMARY KEY(id),
-    CONSTRAINT un_NometbUsuario CHECK (nome),
-    CONSTRAINT un_CpftbUsuario CHECK (cpf),
+    CONSTRAINT un_NometbUsuario UNIQUE (nome),
+    CONSTRAINT un_CpftbUsuario UNIQUE (cpf),
     CONSTRAINT fk_tbEnderecotbUsuario FOREIGN KEY (endereco)
     REFERENCES tbEndereco(id)
     ON DELETE CASCADE ON UPDATE CASCADE
