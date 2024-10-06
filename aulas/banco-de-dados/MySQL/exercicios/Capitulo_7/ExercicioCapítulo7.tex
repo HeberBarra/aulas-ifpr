@@ -1,0 +1,88 @@
+\documentclass{article}
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage{helvet}
+\usepackage{minted}
+\author{Heber Ferreira Barra}
+\title{Atividade Capítulo 7}
+\usemintedstyle{manni}
+
+\begin{document}
+	\maketitle	
+
+	\textbf{Atividade 4 - Criar a base de dados:}
+	\begin{minted}[frame=lines,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{sql}		
+		CREATE DATABASE db_SistemaEmpresaHeber;
+	\end{minted}
+
+	\textbf{Atividade 5 - Escolha da ordem de criação das tabelas:}
+	\\
+
+	A ordem escolhida é a seguinte: tbCompanhia, tbGerente, tbEmpregado e por fim tbTrabalha.
+
+	Esta ordem foi escolhida, pois facilita a criação das tabelas, criando primeiro as tabelas que não possuem chave estrangeira, depois criando a tabela tbEmpregado, que possui apenas uma chave estrangeira, e finalmente criando a tabela tbTrabalha, que possui duas chaves estrangeiras e depende das tabelas tbCompanhia e tbEmpregado.
+
+	\pagebreak
+	\textbf{Atividade 6 - Criar as tabelas da base de dados:}
+	\begin{minted}[frame=lines,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{sql}		
+		USE db_SistemaEmpresaHeber;
+
+		CREATE TABLE tbCompanhia (
+			cod_companhia INT AUTO_INCREMENT,
+			nome_companhia VARCHAR(50) NOT NULL,
+			cidade_companhia VARCHAR(50) NOT NULL,
+			CONSTRAINT pk_tbCompanhia PRIMARY KEY (cod_companhia)
+		);
+
+		CREATE TABLE tbGerente (
+			cod_gerente INT AUTO_INCREMENT,
+			nome_gerente VARCHAR(50) NOT NULL,
+			CONSTRAINT pk_tbGerente PRIMARY KEY (cod_gerente)
+		);
+
+		CREATE TABLE tbEmpregado (
+			cod_emp INT AUTO_INCREMENT,
+			nome_emp VARCHAR(50) NOT NULL,
+			rua_emp VARCHAR(60) NOT NULL,
+			cidade_emp VARCHAR(30) NOT NULL,
+			fone_emp NUMERIC(11) NOT NULL,
+			cod_gerente INT,
+			CONSTRAINT pk_tbEmpregado PRIMARY KEY(cod_emp),
+			CONSTRAINT un_FonetbEmpregado UNIQUE (fone_emp),
+			CONSTRAINT fk_tbGerentetbEmpregado FOREIGN KEY (cod_gerente)
+			REFERENCES tbGerente(cod_gerente)
+			ON DELETE CASCADE ON UPDATE CASCADE
+		);
+
+		CREATE TABLE tbTrabalha (
+			cod_emp INT,
+			cod_companhia INT,
+			salario DOUBLE,
+			CONSTRAINT pk_tbTrabalha PRIMARY KEY (cod_emp, cod_companhia),
+			CONSTRAINT fk_tbEmpregadotbTrabalha FOREIGN KEY (cod_emp)
+			REFERENCES tbEmpregado(cod_emp)
+			ON DELETE CASCADE ON UPDATE CASCADE,
+			CONSTRAINT fk_tbCompanhiatbTrabalha FOREIGN KEY (cod_companhia)
+			REFERENCES tbCompanhia(cod_companhia)
+			ON DELETE CASCADE ON UPDATE CASCADE
+		);
+	\end{minted}
+
+	\textbf{Atividade 9 - Adicionar o atributo telefone\_gerente na tabela tbGerente:}
+	\begin{minted}[frame=lines,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{sql}		
+		USE db_SistemaEmpresaHeber;
+
+		ALTER TABLE tbGerente
+		ADD telefone_gerente NUMERIC(11);
+	\end{minted}
+
+	\textbf{Atividade 10 - Apagar a tabela tbGerente:}
+	\begin{minted}[frame=lines,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{sql}		
+		USE db_SistemaEmpresaHeber;
+
+		ALTER TABLE tbEmpregado
+		DROP FOREIGN KEY fk_tbGerentetbEmpregado;
+
+		DROP TABLE tbGerente;
+	\end{minted}
+\end{document}
+

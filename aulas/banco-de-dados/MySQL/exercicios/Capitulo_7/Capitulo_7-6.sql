@@ -1,21 +1,17 @@
-CREATE DATABASE db_SistemaEmpresaHeber;
-
 USE db_SistemaEmpresaHeber;
 
 CREATE TABLE tbCompanhia (
-	cod_companhia INT AUTO_INCREMENT,
+		cod_companhia INT AUTO_INCREMENT,
     nome_companhia VARCHAR(50) NOT NULL,
     cidade_companhia VARCHAR(50) NOT NULL,
     CONSTRAINT pk_tbCompanhia PRIMARY KEY (cod_companhia)
 );
 
 CREATE TABLE tbGerente (
-	cod_gerente INT AUTO_INCREMENT,
+		cod_gerente INT AUTO_INCREMENT,
     nome_gerente VARCHAR(50) NOT NULL,
     CONSTRAINT pk_tbGerente PRIMARY KEY (cod_gerente)
 );
-
-
 
 CREATE TABLE tbEmpregado (
     cod_emp INT AUTO_INCREMENT,
@@ -32,8 +28,14 @@ CREATE TABLE tbEmpregado (
 );
 
 CREATE TABLE tbTrabalha (
-	cod_emp INT,
+		cod_emp INT,
     cod_companhia INT,
     salario DOUBLE,
-    CONSTRAINT pk_tbTrabalha PRIMARY KEY (cod_emp, cod_companhia)
+    CONSTRAINT pk_tbTrabalha PRIMARY KEY (cod_emp, cod_companhia),
+    CONSTRAINT fk_tbEmpregadotbTrabalha FOREIGN KEY (cod_emp)
+    REFERENCES tbEmpregado(cod_emp)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_tbCompanhiatbTrabalha FOREIGN KEY (cod_companhia)
+    REFERENCES tbCompanhia(cod_companhia)
+    ON DELETE CASCADE ON UPDATE CASCADE
 );
