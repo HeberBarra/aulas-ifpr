@@ -22,7 +22,7 @@ CREATE TABLE tbFilme(
     categoria_filme VARCHAR(20),
     codigo_diretor INT,
     CONSTRAINT pk_tbFilme PRIMARY KEY (codigo_filme),
-    CONSTRAINT fk_tbDiretortbFilme FOREIGN KEY (codigo_filme)
+    CONSTRAINT fk_tbDiretortbFilme FOREIGN KEY (codigo_diretor)
     REFERENCES tbDiretor(codigo_diretor)
 );
 
@@ -147,6 +147,16 @@ INSERT INTO tbFilme
     (nome_filme, ano_lancamento, categoria_filme, codigo_diretor)
 VALUES
     ('Avatar', 2009, 'Drama', 3);
+    
+INSERT INTO tbFilme
+    (nome_filme, ano_lancamento, categoria_filme, codigo_diretor)
+VALUES
+    ('Avatar: O Caminho da Água', 2022, 'Drama', 3);
+
+INSERT INTO tbFilme
+    (nome_filme, ano_lancamento, categoria_filme, codigo_diretor)
+VALUES
+    ('Expedition: Bismarck', 2002, 'Drama', 3);
 
 INSERT INTO tbPremio
     (nome_premio, ano_premiacao, codigo_filme)
@@ -163,6 +173,16 @@ INSERT INTO tbPremio
 VALUES
     ('Efeitos Visuais', 1998, 1);
 
+INSERT INTO tbPremio
+    (nome_premio, ano_premiacao, codigo_filme)
+VALUES
+    ('Melhor Montagem', 1998, 1);
+
+INSERT INTO tbPremio
+    (nome_premio, ano_premiacao, codigo_filme)
+VALUES
+    ('Melhor Trilha Sonora Original', 1998, 1);
+
 INSERT INTO tbSalaFilme
     (numero_sala, codigo_filme, data, horario)
 VALUES
@@ -177,6 +197,16 @@ INSERT INTO tbSalaFilme
     (numero_sala, codigo_filme, data, horario)
 VALUES
     (8, 1, '2011-12-15', '11:00');
+
+INSERT INTO tbSalaFilme
+    (numero_sala, codigo_filme, data, horario)
+VALUES
+    (10, 1, '2011-11-15', '11:00');
+    
+INSERT INTO tbSalaFilme
+    (numero_sala, codigo_filme, data, horario)
+VALUES
+    (9, 1, '2011-10-15', '11:00');
 
 # Atividade 3
 SELECT tbDiretor.nome_diretor FROM tbDiretor;
@@ -196,16 +226,22 @@ UPDATE tbSalaFilme SET
 WHERE numero_sala = 12 AND data = '2010-11-15';
 
 # Atividade 7
-UPDATE tbFilme SET
-    codigo_diretor = null
-WHERE codigo_diretor =
+DELETE FROM tbPremio 
+WHERE tbPremio.codigo_filme IN (SELECT codigo_filme 
+                                FROM tbFilme INNER JOIN tbDiretor ON tbFilme.codigo_diretor = tbDiretor.codigo_diretor
+                                WHERE tbDiretor.nome_diretor = 'Pedro Paulo Matos');
+
+DELETE FROM tbSalaFilme
+WHERE tbSalaFilme.codigo_filme IN (SELECT codigo_filme
+								   FROM tbFilme INNER JOIN tbDiretor ON tbFilme.codigo_diretor = tbDiretor.codigo_diretor
+								   WHERE tbDiretor.nome_diretor = 'Pedro Paulo Matos');
+
+DELETE FROM tbFilme WHERE
+    codigo_diretor IN
     (SELECT codigo_diretor FROM tbDiretor
     WHERE nome_diretor = 'Pedro Paulo Matos');
 
-DELETE FROM tbFilme WHERE
-    codigo_diretor =
-    (SELECT codigo_diretor FROM tbDiretor
-    WHERE nome_diretor = 'Pedro Paulo Matos');
+DELETE FROM tbDiretor WHERE tbDiretor.nome_diretor = 'Pedro Paulo Matos';
 
 # Atividade 8
 SELECT tbFilme.nome_filme
