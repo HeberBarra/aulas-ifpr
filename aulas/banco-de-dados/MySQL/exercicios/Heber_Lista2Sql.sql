@@ -260,3 +260,18 @@ WHERE localizacao = 'Curitiba';
 SELECT tbEmpregado.nome_emp
 FROM tbEmpregado
 WHERE tbEmpregado.cidade_emp = 'São José dos Pinhais';
+
+# Atividade 7
+SELECT tbEmpregado.salario_emp
+FROM tbEmpregado
+WHERE tbEmpregado.cidade_emp = 'Curitiba';
+
+# Atividade 8
+SELECT tbDependentes.nome_dep
+FROM tbDependentes
+WHERE tbDependentes.dataNascimento_dep BETWEEN '2009-01-01' AND '2009-12-31';
+
+# Atividade 9
+SELECT tbEmpregado.nome_emp, tbEmpregado.cidade_emp
+FROM tbEmpregado
+WHERE tbEmpregado.salario_emp > 1000;
