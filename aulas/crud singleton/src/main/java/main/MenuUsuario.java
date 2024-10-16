@@ -119,7 +119,4 @@ public class MenuUsuario {
         System.out.printf("[ %d ] - Voltar%n", VOLTAR);
     }
 
-    public void fechar() {
-        usuarioDAO.fecharConexao();
-    }
 }

@@ -1,51 +1,24 @@
 package produto;
 
+import dao.GenericDAO;
+import jakarta.persistence.Query;
+import java.time.LocalDate;
 import java.util.List;
 
-import conector.ConectorBanco;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-
-public class ProdutoDAO {
-
-	private EntityManager entityManager;
+public class ProdutoDAO extends GenericDAO<Produto> {
 
 	public ProdutoDAO() {
-		entityManager = ConectorBanco.getInstance().createEntityManager();
-	}
-
-	public void create(Produto produto) {
-		entityManager.getTransaction().begin();
-		entityManager.persist(produto);
-		entityManager.getTransaction().commit();
-	}
-
-	public void update(Produto produto) {
-		entityManager.getTransaction().begin();
-		entityManager.merge(produto);
-		entityManager.getTransaction().commit();
+		super(Produto.class);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Produto> list() {
-		String hqlList = "from Produto";
-		Query hql = entityManager.createQuery(hqlList);
-		return hql.getResultList();
-	}
+	public List<Produto> gerarRelatorioFabricacao(LocalDate dataInicio, LocalDate dataFinal) {
+		String hql = "from Produto p where p.dataFabricacao between :dataInicio and :dataFim";
+		Query query = entityManager.createQuery(hql);
+		query.setParameter(":dataInicio", dataInicio);
+		query.setParameter(":dataFim", dataFinal);
 
-	public void remove(int id) {
-		Produto produto = findById(id);
-		entityManager.getTransaction().begin();
-		entityManager.remove(produto);
-		entityManager.getTransaction().commit();
-	}
-
-	public Produto findById(int id) {
-		return entityManager.find(Produto.class, id);
-	}
-
-	public void fecharConexao() {
-		entityManager.close();;
+		return query.getResultList();
 	}
 
 }

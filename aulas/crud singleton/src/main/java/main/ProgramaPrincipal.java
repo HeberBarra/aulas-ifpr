@@ -43,8 +43,6 @@ public class ProgramaPrincipal {
 
 		} while (opcao != SAIR);
 
-		menuUsuario.fechar();
-		menuProduto.fechar();
 		ConectorBanco.fecharConexao();
 	}
 

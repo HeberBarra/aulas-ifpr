@@ -9,7 +9,7 @@ public final class ConectorBanco {
 
     private ConectorBanco() {}
 
-    public static synchronized EntityManagerFactory getInstance() {
+    public static synchronized EntityManagerFactory getConnection() {
         if (entityManagerFactory == null) {
             entityManagerFactory = Persistence.createEntityManagerFactory("xuxu");
         }

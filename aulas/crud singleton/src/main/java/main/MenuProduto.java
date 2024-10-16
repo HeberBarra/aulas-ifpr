@@ -97,7 +97,7 @@ public class MenuProduto {
             int opcao = console.readInt();
 
             if (opcao == 0) {
-                produtoDAO.remove(idRemover);
+                produtoDAO.delete(idRemover);
                 System.out.println("OK, removido com sucesso");
             } else {
                 System.out.println("Cancelar");
@@ -124,10 +124,6 @@ public class MenuProduto {
         System.out.printf("[ %d ] - Listar produtos%n", LISTAR);
         System.out.printf("[ %d ] - Remover produto%n", REMOVER);
         System.out.printf("[ %d ] - Voltar%n", VOLTAR);
-    }
-
-    public void fechar() {
-        produtoDAO.fecharConexao();
     }
 
 }
