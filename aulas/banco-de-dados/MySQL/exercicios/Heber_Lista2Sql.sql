@@ -4,7 +4,7 @@ USE bdEmpregadoHeber;
 
 CREATE TABLE tbProjeto(
     nome_proj VARCHAR(60) NOT NULL,
-    numero_proj INT AUTO_INCREMENT,
+    numero_proj INT,
     localizacao VARCHAR(100),
     CONSTRAINT pk_tbProjeto PRIMARY KEY(numero_proj)
 );
@@ -61,7 +61,7 @@ CREATE TABLE tbEmpregadoProjeto(
     CONSTRAINT pk_tbEmpregadoProjeto PRIMARY KEY (rg_emp, numero_proj),
     CONSTRAINT fk_tbEmpregadotbEmpregadoProjeto FOREIGN KEY (rg_emp)
     REFERENCES tbEmpregado(RG_emp),
-    CONSTRAINT fk_tbProjetotbEmpregado FOREIGN KEY (numero_proj)
+    CONSTRAINT fk_tbProjetotbEmpregadoProjeto FOREIGN KEY (numero_proj)
     REFERENCES tbProjeto(numero_proj)
 );
 
@@ -118,6 +118,11 @@ INSERT INTO tbEmpregado
 VALUES
     ('Rafael Juck', 161616, 616161, 5, 1500,'Curitiba');
 
+INSERT INTO tbEmpregado
+    (nome_emp, RG_emp, CPF_emp, numDepto_emp, salario_emp, cidade_emp)
+VALUES
+    ('Mário Sérgio Pereira Melo Júnior', 171717, 717171, 5, 4000, 'Curitiba');
+
 UPDATE tbDepartamento SET
     rgGerente_depto = 121212
 WHERE numero_depto = 1;
@@ -166,29 +171,29 @@ VALUES
 
 # tbProjeto
 INSERT INTO tbProjeto
-    (nome_proj, localizacao)
+    (numero_proj, nome_proj, localizacao)
 VALUES
-    ('Primeiro Projeto', 'Curitiba');
+    (1, 'Primeiro Projeto', 'Curitiba');
 
 INSERT INTO tbProjeto
-    (nome_proj, localizacao)
+    (numero_proj, nome_proj, localizacao)
 VALUES
-    ('Segundo Projeto', 'São José dos Pinhais');
+    (2, 'Segundo Projeto', 'São José dos Pinhais');
 
 INSERT INTO tbProjeto
-    (nome_proj, localizacao)
+    (numero_proj, nome_proj, localizacao)
 VALUES
-    ('Terceiro Projeto', 'Curitiba');
+    (3, 'Terceiro Projeto', 'Curitiba');
 
 INSERT INTO tbProjeto
-    (nome_proj, localizacao)
+    (numero_proj, nome_proj, localizacao)
 VALUES
-    ('Quarto Projeto', 'Colombo');
+    (4, 'Quarto Projeto', 'Colombo');
 
 INSERT INTO tbProjeto
-    (nome_proj, localizacao)
+    (numero_proj, nome_proj, localizacao)
 VALUES
-    ('Quinto Projeto', 'Curitiba');
+    (5, 'Quinto Projeto', 'Curitiba');
 
 # tbDepartamentoProjeto
 
@@ -274,4 +279,96 @@ WHERE tbDependentes.dataNascimento_dep BETWEEN '2009-01-01' AND '2009-12-31';
 # Atividade 9
 SELECT tbEmpregado.nome_emp, tbEmpregado.cidade_emp
 FROM tbEmpregado
-WHERE tbEmpregado.salario_emp > 1000;
+WHERE tbEmpregado.salario_emp > 3000;
+
+# Atividade 10
+SELECT tbDepartamento.nome_depto, tbEmpregado.nome_emp
+FROM tbDepartamento INNER JOIN tbEmpregado ON tbDepartamento.rgGerente_depto = tbEmpregado.RG_emp;
+
+# Atividade 11
+SELECT tbDepartamento.nome_depto
+FROM tbDepartamento INNER JOIN tbDepartamentoProjeto ON tbDepartamento.numero_depto = tbDepartamentoProjeto.numero_depto
+INNER JOIN tbProjeto ON tbDepartamentoProjeto.numero_proj = tbProjeto.numero_proj
+WHERE tbProjeto.numero_proj = 2;
+
+# Atividade 12
+## Troquei 'informática' por 'G5'
+SELECT tbEmpregado.nome_emp
+FROM tbEmpregado INNER JOIN tbDepartamento ON tbEmpregado.numDepto_emp = tbDepartamento.numero_depto
+WHERE tbDepartamento.nome_depto = 'G5';
+
+# Atividade 13
+SELECT tbEmpregado.nome_emp
+FROM tbEmpregado INNER JOIN tbEmpregadoProjeto ON tbEmpregado.RG_emp = tbEmpregadoProjeto.rg_emp
+INNER JOIN tbProjeto ON tbEmpregadoProjeto.numero_proj = tbProjeto.numero_proj
+WHERE tbProjeto.numero_proj = 2;
+
+# Atividade 14
+UPDATE tbEmpregado
+SET
+    cidade_emp = 'São José dos Pinhais'
+WHERE nome_emp = 'Heber Ferreira Barra';
+
+# Atividade 15
+UPDATE tbEmpregado
+SET
+    salario_emp = salario_emp * 1.07
+WHERE salario_emp > 3200;
+
+# Atividade 16
+## Troquei 'Projeto Alfa' para 'Quinto Projeto'
+
+ALTER TABLE tbDepartamentoProjeto
+DROP FOREIGN KEY fk_tbProjetotbDepartamentoProjeto;
+
+UPDATE tbDepartamentoProjeto
+SET
+    tbDepartamentoProjeto.numero_proj = 23
+WHERE numero_proj = (SELECT tbProjeto.numero_proj
+                    FROM tbProjeto
+                    WHERE nome_proj = 'Quinto Projeto');
+
+ALTER TABLE tbEmpregadoProjeto
+DROP FOREIGN KEY fk_tbProjetotbEmpregadoProjeto;
+
+UPDATE tbEmpregadoProjeto
+SET
+    tbEmpregadoProjeto.numero_proj = 23
+WHERE numero_proj = (SELECT tbProjeto.numero_proj
+                     FROM tbProjeto
+                     WHERE nome_proj = 'Quinto Projeto');
+
+UPDATE tbProjeto
+SET
+    numero_proj = 23
+WHERE nome_proj = 'Quinto Projeto';
+
+
+ALTER TABLE tbDepartamentoProjeto
+ADD CONSTRAINT fk_tbProjetotbDepartamentoProjeto FOREIGN KEY (numero_proj)
+REFERENCES tbProjeto(numero_proj);
+
+ALTER TABLE tbEmpregadoProjeto
+ADD CONSTRAINT fk_tbProjetotbEmpregadoProjeto FOREIGN KEY (numero_proj)
+REFERENCES tbProjeto(numero_proj);
+
+# Atividade 17
+DELETE FROM tbDependentes
+WHERE tbDependentes.rgResponsavel_dep = (SELECT tbEmpregado.RG_emp
+                                         FROM tbEmpregado
+                                         WHERE tbEmpregado.nome_emp = 'João Gabriel');
+
+# Atividade 18
+## Troquei 'Projeto Omega' por 'Quarto Projeto'
+DELETE FROM tbDepartamentoProjeto
+WHERE tbDepartamentoProjeto.numero_proj = (SELECT tbProjeto.numero_proj
+                                           FROM tbProjeto
+                                           WHERE tbProjeto.nome_proj = 'Quarto Projeto');
+
+DELETE FROM tbEmpregadoProjeto
+WHERE tbEmpregadoProjeto.numero_proj = (SELECT tbProjeto.numero_proj
+                                        FROM tbProjeto
+                                        WHERE tbProjeto.nome_proj = 'Quarto Projeto');
+
+DELETE FROM tbProjeto
+WHERE tbProjeto.nome_proj = 'Quarto Projeto';
